@@ -20,7 +20,8 @@ class ParseThings:
         self.parser.add_argument('--E_max', dest='e_max', type=float, help='Define maximal spectrum energy', default=1.)
         self.parser.add_argument('--chanels', dest='chanels_num', type=int, help='Number of chanels', default=1000)
         self.parser.add_argument('--E0', dest='E0', type=float, help='Energy shift', default=0.01)
+        self.parser.add_argument('--time', dest='time', type=float, help='Time', default=100)
 
     # Parse things method
-    def Parse(self):
+    def parse(self):
         return self.parser.parse_args()

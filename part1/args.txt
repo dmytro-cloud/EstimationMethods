@@ -1,5 +1,7 @@
---line 1 2 3 --line 4 5 6
+--line 1 2 0.03 --line 4 5 0.05
 --comment BLA BLA BLA BLA
 sadsad adsasd
---line 7 8 9
---background 1 2 3 4
+--line 7 8 0.07
+--background 2 1 1 0.05
+--E_max 10
+--time 100
