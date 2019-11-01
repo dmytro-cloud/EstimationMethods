@@ -49,7 +49,7 @@ def clearBackground():
     clear_background = [0] * args.chanels_num
     for chanel_num in range(args.chanels_num):
         energy = getEnergyFromChanel(args.chanels_num, chanel_num, args.e_max, args.E0)
-        clear_background[chanel_num] = backgroundFunction(energy, args.background)
+        clear_background[chanel_num] = backgroundFunction(energy, args.background) * args.time * args.background_intensity
     return clear_background
 
 # Spectrum need to be an ineteger numbers ??!!!
@@ -66,10 +66,35 @@ def widthPeaks():
             width[chanel] += gaussian( energy, amplitude, x_0, FwhmToSigma(line[2]) )
     return width
 
+def widthPeaks2():
+    a0 = 0.1
+    a1 = 0.1
+    width = [0] * args.chanels_num
+    for line in args.lines:
+        for chanel in range(args.chanels_num):
+            x_0 = line[0]
+            energy = getEnergyFromChanel(args.chanels_num, chanel, args.e_max, args.E0)
+            # Calculate amplitude of Gauss function asuming that intensity should be the same as before
+            # That's mean integrals should be same
+            amplitude = line[1] * args.time / ( np.sqrt(2 * np.pi) * FwhmToSigma(line[2]) )
+            width[chanel] += gaussian( energy, amplitude, x_0, a0 + a1 * np.sqrt(line[0]) )
+    return width
+
+def statisticDistribution(ar):
+    for i in range(len(ar)):
+        if (ar[i] > 10):
+            ar[i] = np.random.poisson(ar[i], 1)
+        else:
+            ar[i] = np.random.normal(ar[i], np.sqrt(ar[i], 1))
+
+    return ar
 
 clear = clearPeaks()
 clear_bck = clearBackground()
 width = widthPeaks()
-build(clear)
+width2 = widthPeaks2()
+# build(clear)
 build(clear_bck)
-build(width)
+result = np.array(width2) + np.array(clear_bck)
+build(result)
+build(statisticDistribution(result))

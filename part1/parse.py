@@ -21,6 +21,7 @@ class ParseThings:
         self.parser.add_argument('--chanels', dest='chanels_num', type=int, help='Number of chanels', default=1000)
         self.parser.add_argument('--E0', dest='E0', type=float, help='Energy shift', default=0.01)
         self.parser.add_argument('--time', dest='time', type=float, help='Time', default=100)
+        self.parser.add_argument('--background_intensity', dest='background_intensity', type=float, help='Intensity of background', default=10)
 
     # Parse things method
     def parse(self):
