@@ -1,0 +1,13 @@
+--line 100 10 4
+--background 1 0.03 1 0.0001
+--time 1000
+--E_max 1000
+--background_intensity 10
+--chanels 1000
+--E0 0
+--mode1 0
+--mode2 0
+--mode3 0
+--mode4 0
+--mode5 1
+

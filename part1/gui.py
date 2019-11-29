@@ -30,16 +30,16 @@ Label(text="a4 (number/keV) * x").grid(row=2, column=4)
 Label(text="Background parameters:").grid(row=3, column=0)
 a1 = Entry(width=20)
 a1.grid(row=3, column=1)
-a1.insert(0, 0)
+a1.insert(0, 1)
 a2 = Entry(width=20)
 a2.grid(row=3, column=2)
-a2.insert(0, 0)
+a2.insert(0, 0.003)
 a3 = Entry(width=20)
 a3.grid(row=3, column=3)
-a3.insert(0, 0)
+a3.insert(0, 1)
 a4 = Entry(width=20)
 a4.grid(row=3, column=4)
-a4.insert(0, 0)
+a4.insert(0, 0.0008)
 
 Label(text="Time (s):").grid(row=6, column=0)
 time = Entry(width=10)
@@ -69,13 +69,16 @@ Label(text="Number of added lines:").grid(row=0, column=6)
 counter = Label(text=str(COUNTER), font=("Courier", 56))
 counter.grid(row=1, column=6, rowspan=3)
 
-var = IntVar()
-var.set(1)
-clear = Radiobutton(text="Clear", variable=var, value=1)
-clearBck = Radiobutton(text="Clear + Background", variable=var, value=2)
-statBck1 = Radiobutton(text="Statistic + Background (i)", variable=var, value=3)
-statBck2 = Radiobutton(text="Statistic + Background (ii)", variable=var, value=4)
-statBckBlured = Radiobutton(text="Statistic + Background + Blurred", variable=var, value=5)
+var1 = IntVar()
+var2 = IntVar()
+var3 = IntVar()
+var4 = IntVar()
+var5 = IntVar()
+clear = Checkbutton(text="Clear", variable=var1, onvalue=1, offvalue=0)
+clearBck = Checkbutton(text="Clear + Background", variable=var2, onvalue=1, offvalue=0)
+statBck1 = Checkbutton(text="Statistic + Background (i)", variable=var3, onvalue=1, offvalue=0)
+statBck2 = Checkbutton(text="Statistic + Background (ii)", variable=var4, onvalue=1, offvalue=0)
+statBckBlured = Checkbutton(text="Statistic + Background + Blurred", variable=var5, onvalue=1, offvalue=0)
 
 Label(text="Select build mode: ").grid(row=0, column=7)
 clear.grid(row=1, column=7)
@@ -84,8 +87,8 @@ statBck1.grid(row=3, column=7)
 statBck2.grid(row=4, column=7)
 statBckBlured.grid(row=5, column=7)
 
-table_name = Button(text='Help')
-table_name.grid(row=0, column=9)
+helpButton = Button(text='Help')
+helpButton.grid(row=0, column=9)
  
 logFile = open('logFile.txt', 'w+')
 
@@ -134,14 +137,26 @@ def MakeRun(event):
     s = '--E0 '
     s += E0.get()
     logFile.write(s + '\n')
-    s = '--mode '
-    s += str(var.get())
+    s = '--mode1 '
+    s += str(str(var1.get()) + '\n')
+    s += '--mode2 '
+    s += str(str(var2.get()) + '\n')
+    s += '--mode3 '
+    s += str(str(var3.get()) + '\n')
+    s += '--mode4 '
+    s += str(str(var4.get()) + '\n')
+    s += '--mode5 '
+    s += str(str(var5.get()) + '\n')
     logFile.write(s + '\n')
     logFile.close()
     # Add spectrum_build.py runner
     subprocess.run(['python3', 'spectrum_build.py', '@logFile.txt'])
 
+def openOffice(event):
+    subprocess.run(['libreoffice', 'task1.doc'])
+
 addLine.bind('<Button-1>', GetLine)
 runButton.bind('<Button-1>', MakeRun)
+helpButton.bind('<Button-1>', openOffice)
 
 root.mainloop()

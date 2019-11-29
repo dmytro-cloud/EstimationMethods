@@ -22,8 +22,12 @@ class ParseThings:
         self.parser.add_argument('--E0', dest='E0', type=float, help='Energy shift', default=0.01)
         self.parser.add_argument('--time', dest='time', type=float, help='Time', default=100)
         self.parser.add_argument('--background_intensity', dest='background_intensity', type=float, help='Intensity of background', default=10)
-        self.parser.add_argument('--mode', dest='build_mode', type=int,
-         help='Build mode. 1 - clear, 2 - clear + background, 3 - statistic + background i, 4 -statistic + background ii, 5 statistic + background + Blurred')
+        self.parser.add_argument('--mode1', dest='mode1', type=int)
+        self.parser.add_argument('--mode2', dest='mode2', type=int)
+        self.parser.add_argument('--mode3', dest='mode3', type=int)
+        self.parser.add_argument('--mode4', dest='mode4', type=int)
+        self.parser.add_argument('--mode5', dest='mode5', type=int)
+         # help='Build mode. 1 - clear, 2 - clear + background, 3 - statistic + background i, 4 -statistic + background ii, 5 statistic + background + Blurred')
 
     # Parse things method
     def parse(self):

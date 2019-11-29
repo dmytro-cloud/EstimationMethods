@@ -5,11 +5,24 @@ from matplotlib import pyplot as plt
 
 # Maybe better to use maps (no problems with ranges) ???
 
-def build(spectrum):
+def ToFile(ar, file):
+    file.write('Channel\tIntensity\n')
+    for i in range(len(ar)):
+        file.write(str(i) + '\t' + str(int(ar[i])) + '\n')
+
+def build(spectrum, mode):
     spectrum = np.array(spectrum)
     x = np.arange(len(spectrum))
-    plt.plot(x, spectrum, 'b.')
-    plt.show()
+    if mode == 1:
+        plt.plot(x, spectrum, '.', label='clear')
+    if mode == 2:
+        plt.plot(x, spectrum, '.', color='orange', label='clear + background')
+    if mode == 3:
+        plt.plot(x, spectrum, 'g.', label='Statistic + Background (i)')
+    if mode == 4:
+        plt.plot(x, spectrum, 'r.', label='Statistic + Background (ii)')
+    if mode == 5:
+        plt.plot(x, spectrum, 'b.', label='Statistic + Background + Blurred')
 
 def FwhmToSigma(fwhm):
     return fwhm / 2.355
@@ -87,22 +100,33 @@ def statisticDistribution(ar):
             ar[i] = abs(np.random.normal(ar[i], np.sqrt(ar[i]), 1))
     return ar
 
+f = open("spectrum.txt", 'w+')
+
 clear = clearPeaks()
 clear_bck = clearBackground()
 width = widthPeaks()
 width2 = widthPeaks2()
 # build(clear)
-if args.build_mode == 1:
-    build(clear)
-if args.build_mode == 2:
-    build(np.array(clear) + np.array(clear_bck))
+if args.mode1 == 1:
+    ToFile(clear, f)
+    build(clear, 1)
+if args.mode2 == 1:
+    ToFile(np.array(clear) + np.array(clear_bck), f)
+    build((np.array(clear) + np.array(clear_bck)), 2)
 
 result = np.array(width) + np.array(clear_bck)
 result2 = np.array(width2) + np.array(clear_bck)
 
-if args.build_mode == 3:
-    build(result)
-if args.build_mode == 4:
-    build(result2)
-if args.build_mode == 5:
-    build(statisticDistribution(result))
+if args.mode3 == 1:
+    ToFile(result, f)
+    build(result, 3)
+if args.mode4 == 1:
+    ToFile(result2, f)
+    build(result2, 4)
+if args.mode5 == 1:
+    ToFile(statisticDistribution(result), f)   
+    build(statisticDistribution(result), 5)
+plt.legend()
+plt.show()
+
+f.close()
