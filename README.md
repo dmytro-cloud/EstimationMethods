@@ -1,4 +1,4 @@
-# EstimationMethods
+# Build and Analyse Spectrum
 Project for a class (4-th year undergrad, HEP, Data Estimation Methods)
 
 Part1 has a `gui.py` built with tkinter. Use args.txt to set up a spectrum from a file.
